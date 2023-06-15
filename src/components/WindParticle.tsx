@@ -10,21 +10,25 @@ import color from 'color';
 import {useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
 import {StyleSheet} from 'react-native';
 
-const DURATION = 1000;
-const PARTICLE_LENGTH = 80;
-const REPETITIONS = 100;
+const DURATION = 1500;
+const PARTICLE_WIDTH = 50;
+const REPETITIONS = 1000;
 
 const WindParticle: React.FunctionComponent = () => {
   const startColor = color('#00ff87', 'hex').alpha(0).toString();
   const particleScale = useSharedValue(0);
 
-  useEffect(() => {
+  const animate = () => {
     particleScale.value = withRepeat(
-      withTiming(PARTICLE_LENGTH, {duration: DURATION}),
+      withTiming(PARTICLE_WIDTH, {duration: DURATION}),
       REPETITIONS,
       false,
     );
-  }, [particleScale]);
+  };
+
+  useEffect(() => {
+    setTimeout(() => animate(), Math.floor(Math.random() * 1000));
+  }, []);
 
   return (
     <Canvas style={styles.container}>
@@ -48,7 +52,7 @@ const WindParticle: React.FunctionComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: 15,
   },
 });
 
